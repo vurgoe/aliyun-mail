@@ -1,0 +1,22 @@
+{
+  "name": "corgie-plugin-mail",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vurgoe/corgie-plugin-mail.git"
+  },
+  "author": "Tauri Tech",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vurgoe/corgie-plugin-mail/issues"
+  },
+  "homepage": "https://github.com/vurgoe/corgie-plugin-mail#readme",
+  "dependencies": {
+    "nodemailer": "^4.0.1"
+  }
+}
