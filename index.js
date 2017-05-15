@@ -1,22 +1,38 @@
 const nodemailer = require('nodemailer');
 
 module.exports = function(app, config, baseDir){
-    console.log(config);
+    if(!config){
+        console.log("缺少email配置");
+        return
+    }
+    if(!config.auth || !config.auth.user){
+        console.log("email配置中缺少授权账号信息");
+        return
+    }
 	const transporter = nodemailer.createTransport(config);
 
 	return async(ctx, next) => {
-        ctx.mail = mailOptions => transporter.sendMail(mailOptions, function(error, info){
-            if(error){
-                return {
-                    isError : true,
-                    message : error
-                }
-            }
-            return {
-                isError : false,
-                message : 'Message sent: ' + info.response
-            };
-        });
+        ctx.mail = mailOptions => {
+            mailOptions.from = config.auth.user
+            return new Promise((resolve, reject)=> {
+                transporter.sendMail(mailOptions, function(error, info){
+                    if(error){
+                        reject({
+                            isError : true,
+                            message : error
+                        }) 
+                    }
+                    resolve({
+                        isError : false,
+                        message : 'Message sent: ' + (info && info.response)?info.response:JSON.stringify(info)
+                    })
+                });
+            })
+        }
+        // TODO
+        // ctx.mailTemplate = () => {
+
+        // }
 		await next()
 	}
 }
